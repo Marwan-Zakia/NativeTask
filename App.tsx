@@ -9,23 +9,48 @@ import {
 	InMemoryCache,
 	ApolloProvider,
 } from "@apollo/client";
+// import dot env to get the environment variables
+require("dotenv").config();
+// import { createAppContainer } from "react-navigation";
+// import { createStackNavigator } from "react-navigation-stack";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-	uri: "localhost:19002/graphql",
+	uri: "https://api.github.com/graphql",
+	headers: {
+		authorization: `Bearer ${process.env.REACT_APP_GitHubToken}`,
+	},
 	cache: new InMemoryCache(),
 });
+console.log(process.env.REACT_APP_GitHubToken);
 
 const App = () => (
 	<ApolloProvider client={client}>
 		<View style={styles.container}>
-			<Text>sucss</Text>
+		
+			<Content />
+
 			<StatusBar style="auto" />
 		</View>
 	</ApolloProvider>
 );
-
 export default App;
+
+// const navigator = createStackNavigator(
+// 	{
+
+// 		Home: Content,
+// 	},
+// 	{
+// 		initialRouteName: "Home",
+// 		defaultNavigationOptions: {
+// 			title: "App",
+// 		},
+// 	},
+// );
+
+// export default createAppContainer(navigator);
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
