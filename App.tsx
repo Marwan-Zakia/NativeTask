@@ -8,30 +8,29 @@ import {
 	ApolloClient,
 	InMemoryCache,
 	ApolloProvider,
+	gql,
+	useQuery,
 } from "@apollo/client";
 
-// Initialize Apollo Client
+import { REACT_APP_GitHubToken } from "@env";
+
+ import Main from "./components/Main";
+import Profile from "./components/Profile";
+import Index from "./components/Index";
 const client = new ApolloClient({
-	uri: "localhost:19002/graphql",
+	uri: "https://api.github.com/graphql",
+	headers: {
+		Authorization: `Bearer ${REACT_APP_GitHubToken}`,
+	},
 	cache: new InMemoryCache(),
 });
 
-const App = () => (
-	<ApolloProvider client={client}>
-		<View style={styles.container}>
-			<Text>sucss</Text>
-			<StatusBar style="auto" />
-		</View>
-	</ApolloProvider>
-);
+export default function App() {
+	return (
+		<ApolloProvider client={client}>
+			<Index />
+		</ApolloProvider>
+	);
+}
 
-export default App;
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-});
 AppRegistry.registerComponent("MyApplication", () => App);
